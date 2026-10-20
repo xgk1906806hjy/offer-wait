@@ -1,0 +1,65 @@
+<view class="page">
+  <view class="intro">
+    <view class="intro-p">脱敏后再发：公司名写“某 + 行业”就行，总包写区间就行。<text class="b">这个广场不比较 package，只解决问题。</text></view>
+  </view>
+
+  <view class="card">
+    <view class="field">
+      <view class="label">岗位</view>
+      <input class="input" value="{{role}}" data-field="role" bindinput="onInput" placeholder="例：跨境电商运营（资深）" placeholder-class="ph" maxlength="40" />
+    </view>
+
+    <view class="row2">
+      <view class="field">
+        <view class="label">行业</view>
+        <input class="input" value="{{industry}}" data-field="industry" bindinput="onInput" placeholder="例：跨境电商" placeholder-class="ph" maxlength="20" />
+      </view>
+      <view class="field">
+        <view class="label">城市</view>
+        <input class="input" value="{{city}}" data-field="city" bindinput="onInput" placeholder="例：深圳" placeholder-class="ph" maxlength="20" />
+      </view>
+    </view>
+
+    <view class="field">
+      <view class="label">公司（可留空，默认脱敏）</view>
+      <input class="input" value="{{company}}" data-field="company" bindinput="onInput" placeholder="例：某跨境电商上市公司" placeholder-class="ph" maxlength="40" />
+    </view>
+
+    <view class="row2">
+      <view class="field">
+        <view class="label">总包区间</view>
+        <input class="input" value="{{pkg}}" data-field="pkg" bindinput="onInput" placeholder="例：18–22k × 14–16" placeholder-class="ph" maxlength="30" />
+      </view>
+      <view class="field">
+        <view class="label">多久内要答复</view>
+        <picker mode="selector" range="{{hoursList}}" value="{{hoursIndex}}" bindchange="onHours">
+          <view class="picker-box">{{hoursList[hoursIndex]}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="field">
+      <view class="label">你最纠结的那一件事（一句话）</view>
+      <textarea class="ta" value="{{dilemma}}" data-field="dilemma" bindinput="onInput" placeholder="例：涨薪 30%，但要从 965 变成 996，我怕身体扛不住。" placeholder-class="ph" maxlength="120" />
+    </view>
+
+    <view class="row2">
+      <view class="field">
+        <view class="label">手上还有别的选择吗</view>
+        <picker mode="selector" range="{{altList}}" value="{{altIndex}}" bindchange="onAlt">
+          <view class="picker-box">{{altList[altIndex]}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <view class="label">你已经问过什么</view>
+        <input class="input" value="{{asked}}" data-field="asked" bindinput="onInput" placeholder="例：问过加班强度" placeholder-class="ph" maxlength="40" />
+      </view>
+    </view>
+
+    <view class="hint" style="margin-top: 8rpx;">提交后，系统会按岗位生成 3–4 个“签字前必须问清楚”的问题。审批人必须至少回答一个——他们给的不是态度，是信息。</view>
+
+    <view class="btn {{submitting ? 'busy' : ''}}" bindtap="onSubmit" hover-class="tap">{{submitting ? '提交中…' : '提交，等过来人审'}}</view>
+  </view>
+
+  <view class="footnote">演示版 · 数据只存在这台手机的微信缓存里</view>
+</view>

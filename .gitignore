@@ -1,0 +1,24 @@
+# 依赖与临时产物
+node_modules/
+.venv/
+
+# 本地后端的运行时数据（每次启动会重新灌种子）
+**/dev/local-backend/data.json
+
+# 预览器的浏览器缓存
+**/.chrome*/
+**/.chrome5/
+
+# 临时目录
+.tmp-remote/
+.tmp/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.idea/
+.vscode/
+*.swp

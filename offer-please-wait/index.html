@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F6F2EA">
+<title>offer 请等等 · 签字之前，先让过来人问三个问题</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="phone">
+  <header class="appbar">
+    <div class="brand">offer<em>请等等</em></div>
+    <div class="tagline">签字之前，先让过来人问三个问题</div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-act="nav" data-nav="plaza" class="on">广场</button>
+    <button data-act="nav" data-nav="submit">提一份</button>
+    <button data-act="nav" data-nav="mine">我的</button>
+  </nav>
+
+  <main id="app"></main>
+
+  <div class="footnote">演示原型 · 数据只存在这台机器的浏览器里</div>
+  <div id="toast" class="toast"></div>
+</div>
+
+<div id="modal" class="modal" hidden>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "timer",
+  "version": "1.0.0",
+  "description": "定时对账：过期收口、票型校准",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

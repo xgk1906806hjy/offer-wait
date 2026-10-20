@@ -1,0 +1,44 @@
+<view class="page">
+  <view class="intro">
+    <view class="intro-p">这里的规矩：<text class="b">不许晒总包，只许说纠结</text>。你把 offer 脱敏发上来，过来人判“接 / 再等等 / 别接”，并且必须回答一个你没想到要问的问题。</view>
+    <view class="steps">
+      <text class="step">1 脱敏提交</text>
+      <text class="step">2 陌生人来审</text>
+      <text class="step">3 必须写理由</text>
+      <text class="step">4 拿走问题清单</text>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{loading}}">正在加载…</view>
+
+  <view class="empty" wx:elif="{{error}}">
+    {{error}}
+    <view class="btn ghost" style="margin-top: 24rpx;" bindtap="retry" hover-class="tap">重试</view>
+  </view>
+
+  <block wx:else>
+    <view class="card" wx:for="{{items}}" wx:key="id" data-id="{{item.id}}" bindtap="openOffer" hover-class="tap">
+      <view class="card-top">
+        <text class="tag">{{item.industry}}</text>
+        <text class="cd {{item.urgent ? 'urgent' : ''}} {{item.over ? 'over' : ''}}">{{item.remain}}</text>
+      </view>
+      <view class="h3">{{item.role}}</view>
+      <view class="meta">{{item.city}} · {{item.pkg}}</view>
+      <view class="company">{{item.company}}</view>
+      <view class="dilemma">“{{item.dilemma}}”</view>
+      <view class="card-foot">
+        <text>{{item.voteCount}} 位过来人已审</text>
+        <text wx:if="{{item.voted}}" class="done">你已审</text>
+        <text wx:else class="go">去审批 →</text>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{!items.length}}">广场还是空的。<br />去「提一份」，把手上那个不敢签的 offer 脱敏发上来。</view>
+    <view class="empty" wx:if="{{items.length && hasMore}}">上滑加载更多</view>
+
+    <view class="tip">广场按截止时间排序。越急的越靠前——因为签字那一刻，没人会等你。</view>
+  </block>
+
+  <view class="footnote" wx:if="{{mode === 'local'}}">本地演示模式 · 数据不共享，配好云开发后自动切到线上</view>
+  <view class="footnote" wx:if="{{mode === 'http'}}">已连本地后端 · 同一个库，换个窗口加 ?me=openid-B 就是另一个人</view>
+</view>

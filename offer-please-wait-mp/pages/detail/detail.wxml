@@ -1,0 +1,155 @@
+<view class="page" wx:if="{{loading}}">
+  <view class="empty">正在加载…</view>
+</view>
+
+<view class="page" wx:elif="{{error}}">
+  <view class="empty">
+    {{error}}
+    <view class="btn ghost" style="margin-top: 24rpx;" bindtap="goPlaza" hover-class="tap">返回</view>
+  </view>
+</view>
+
+<block wx:else>
+  <view class="page">
+    <view class="card">
+      <view class="card-top">
+        <text class="tag">{{offer.industry}}</text>
+        <text class="cd {{offer.urgent ? 'urgent' : ''}} {{offer.over ? 'over' : ''}}">{{offer.remain}}</text>
+      </view>
+      <view class="h2">{{offer.role}}</view>
+      <view class="meta">{{offer.city}} · {{offer.pkg}}</view>
+      <view class="company">{{offer.company}}</view>
+      <view class="dilemma">“{{offer.dilemma}}”</view>
+      <view class="facts">
+        <view class="fact">
+          <text class="k">其他选择</text>
+          <text class="v">{{offer.altLabel}}</text>
+        </view>
+        <view class="fact" wx:if="{{offer.asked}}">
+          <text class="k">已经问过</text>
+          <text class="v">{{offer.asked}}</text>
+        </view>
+        <view class="fact">
+          <text class="k">答复截止</text>
+          <text class="v {{offer.urgent ? 'red' : ''}}">{{offer.remain}}</text>
+        </view>
+        <view class="fact" wx:if="{{offer.status === 'reviewing'}}">
+          <text class="k">状态</text>
+          <text class="v">审核中，仅你自己可见</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="block">
+      <view class="b-title">签字前必须问清楚的 {{questions.length}} 件事</view>
+      <view class="q" wx:for="{{questions}}" wx:key="seq">
+        <text class="qn">Q{{item.seq}}</text>
+        <text class="qt">{{item.text}}</text>
+      </view>
+    </view>
+
+    <view class="block" wx:if="{{viewer.can_vote}}">
+      <view class="b-title">你来审</view>
+      <view class="hint">先给判断，再写理由。<text class="b">投完才看得到别人怎么想</text>——先看会带节奏，这是故意设计的。</view>
+
+      <view class="choices">
+        <view class="choice {{choice === 'take' ? 'sel take' : ''}}" data-k="take" bindtap="onChoose" hover-class="tap">
+          <text class="cn">接</text>
+          <text class="ce">TAKE</text>
+        </view>
+        <view class="choice {{choice === 'wait' ? 'sel wait' : ''}}" data-k="wait" bindtap="onChoose" hover-class="tap">
+          <text class="cn">再等等</text>
+          <text class="ce">WAIT</text>
+        </view>
+        <view class="choice {{choice === 'drop' ? 'sel drop' : ''}}" data-k="drop" bindtap="onChoose" hover-class="tap">
+          <text class="cn">别接</text>
+          <text class="ce">DROP</text>
+        </view>
+      </view>
+
+      <textarea class="ta" value="{{reason}}" bindinput="onReason" placeholder="你凭什么这么判？写你真正会跟朋友说的那句话（至少 10 个字）" placeholder-class="ph" maxlength="500" />
+
+      <view class="hint" style="margin-top: 6rpx;">至少回答一个上面的问题，帮他把信息补齐：</view>
+
+      <textarea class="ta small" wx:for="{{questions}}" wx:key="seq" value="{{answers[index]}}" data-idx="{{index}}" bindinput="onAnswer" placeholder="Q{{item.seq}} {{item.text}}" placeholder-class="ph" maxlength="300" />
+
+      <view class="btn {{submitting ? 'busy' : ''}}" bindtap="submitVote" hover-class="tap">{{submitting ? '提交中…' : '提交审批'}}</view>
+    </view>
+
+    <view class="block" wx:if="{{result}}">
+      <text class="stamp {{result.verdictKey}}">{{result.verdictLabel}}</text>
+      <view class="b-title">审批结果</view>
+
+      <view class="bar">
+        <view class="seg take" style="width: {{result.barTake}}%"></view>
+        <view class="seg wait" style="width: {{result.barWait}}%"></view>
+        <view class="seg drop" style="width: {{result.barDrop}}%"></view>
+      </view>
+      <view class="counts">
+        <text class="c take">接<text class="n">{{result.tally.take}}</text></text>
+        <text class="c wait">再等等<text class="n">{{result.tally.wait}}</text></text>
+        <text class="c drop">别接<text class="n">{{result.tally.drop}}</text></text>
+      </view>
+
+      <view class="b-title">拿走这张清单</view>
+      <view class="lead" wx:if="{{result.openQuestions.length}}">还有 {{result.openQuestions.length}} 个问题没人替你问。签字前，把它们发邮件问 HR，要书面回复：</view>
+      <view class="lead" wx:else>这几个问题都有人替你答了，逐条核对一遍再签。</view>
+
+      <view class="todo-wrap">
+        <view class="todo" wx:for="{{result.openQuestions}}" wx:key="seq">· {{item.text}}</view>
+        <view class="fixed-line">· 口头承诺一律补进合同，或用邮件确认一遍</view>
+        <view class="fixed-line">· 确认社保公积金基数、落户与档案材料</view>
+        <view class="fixed-line">· 查一次公开的劳动仲裁与被执行记录</view>
+      </view>
+
+      <view class="b-title">他们怎么说的</view>
+      <view class="reason" wx:for="{{result.votes}}" wx:key="idx">
+        <view class="rhead">
+          <text class="chip {{item.choice}}">{{item.label}}</text>
+          <text class="you" wx:if="{{item.mine}}">你</text>
+        </view>
+        <view class="rtext">{{item.reason}}</view>
+        <view class="ba" wx:if="{{item.answers.length}}">
+          <view wx:for="{{item.answers}}" wx:for-item="a" wx:key="seq">
+            <text class="baq">Q{{a.seq}}</text> {{a.text}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="block" wx:if="{{!result && !viewer.can_vote && !viewer.has_voted}}">
+      <block wx:if="{{viewer.is_author}}">
+        <view class="hint" wx:if="{{offer.vote_count > 0}}">已经有 {{offer.vote_count}} 位过来人审过。满 3 票后，这里会解锁全部理由和清单。</view>
+        <view class="hint" wx:else>还没有人审。把这条转发给几个同行，或者等广场上的人刷到。</view>
+      </block>
+      <view class="hint" wx:else>这条已经截止，不再接受新的审批。</view>
+    </view>
+
+    <view class="block" wx:if="{{viewer.is_author && !offer.decision}}">
+      <view class="b-title">最后，你怎么定的</view>
+      <view class="hint">没人能替你签。留个记录，三个月后我们会来问你后不后悔。</view>
+      <view class="choices">
+        <view class="choice" data-d="take" bindtap="onDecide" hover-class="tap">
+          <text class="cn">接了</text>
+          <text class="ce">TAKE</text>
+        </view>
+        <view class="choice" data-d="wait" bindtap="onDecide" hover-class="tap">
+          <text class="cn">还在拖</text>
+          <text class="ce">WAIT</text>
+        </view>
+        <view class="choice" data-d="drop" bindtap="onDecide" hover-class="tap">
+          <text class="cn">拒了</text>
+          <text class="ce">DROP</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="block" wx:if="{{viewer.is_author && offer.decision}}">
+      <view class="b-title">你的决定</view>
+      <view class="lead">{{offer.decision === 'take' ? '接了' : offer.decision === 'wait' ? '还在拖' : '拒了'}}。已经记下，三个月后回来复盘。</view>
+      <view class="btn ghost" bindtap="onReview" hover-class="tap">现在就写一句复盘</view>
+    </view>
+
+    <view class="footnote">不卖榜 · 不卖优先审批 · 不接招聘方的钱</view>
+  </view>
+</block>

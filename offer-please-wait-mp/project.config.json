@@ -1,0 +1,45 @@
+{
+  "description": "offer 请等等 —— 签字前让过来人问三个问题",
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "dev"
+      },
+      {
+        "type": "folder",
+        "value": "cloudfunctions"
+      },
+      {
+        "type": "folder",
+        "value": "docs"
+      }
+    ]
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "autoAudits": false,
+    "checkInvalidKey": true,
+    "nodeModules": false,
+    "uglifyFileName": false,
+    "useIsolateContext": true,
+    "useCompilerModule": false,
+    "userConfirmedUseCompilerModuleSwitch": false
+  },
+  "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "libVersion": "3.5.5",
+  "appid": "touristappid",
+  "projectname": "offer-please-wait",
+  "condition": {
+    "miniprogram": {
+      "list": []
+    }
+  }
+}

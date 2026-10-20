@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/plaza/plaza",
+    "pages/submit/submit",
+    "pages/detail/detail",
+    "pages/mine/mine"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F6F2EA",
+    "navigationBarTitleText": "offer 请等等",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F6F2EA",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#8A8175",
+    "selectedColor": "#AF3A2A",
+    "backgroundColor": "#FBFAF6",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/plaza/plaza",
+        "text": "广场",
+        "iconPath": "images/tab-plaza.png",
+        "selectedIconPath": "images/tab-plaza-on.png"
+      },
+      {
+        "pagePath": "pages/submit/submit",
+        "text": "提一份",
+        "iconPath": "images/tab-add.png",
+        "selectedIconPath": "images/tab-add-on.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab-mine.png",
+        "selectedIconPath": "images/tab-mine-on.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

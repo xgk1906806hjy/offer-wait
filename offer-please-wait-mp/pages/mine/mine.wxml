@@ -1,0 +1,58 @@
+<view class="page">
+  <view class="empty" wx:if="{{loading}}">正在加载…</view>
+
+  <view class="empty" wx:elif="{{error}}">
+    {{error}}
+    <view class="btn ghost" style="margin-top: 24rpx;" bindtap="retry" hover-class="tap">重试</view>
+  </view>
+
+  <block wx:else>
+    <view class="stats">
+      <view class="stat">
+        <text class="n">{{stats.offers}}</text>
+        <text class="l">我提的 offer</text>
+      </view>
+      <view class="stat">
+        <text class="n">{{stats.votes}}</text>
+        <text class="l">我审过的</text>
+      </view>
+      <view class="stat">
+        <text class="n">{{quota}}</text>
+        <text class="l">可发次数</text>
+      </view>
+    </view>
+
+    <view class="card" wx:if="{{quota < 3 && stats.offers > 0}}">
+      <view class="lead" style="margin-bottom: 0">再发一条还需要 3 次额度，你现在有 {{quota}} 次。去广场审 {{3 - quota}} 份就行。</view>
+    </view>
+
+    <view class="section-title">我提交的</view>
+
+    <view class="card" wx:for="{{offers}}" wx:key="id" data-id="{{item.id}}" bindtap="openOffer" hover-class="tap">
+      <view class="card-top">
+        <text class="tag">{{item.industry}}</text>
+        <text class="status {{item.statusClass}}">{{item.statusText}}</text>
+      </view>
+      <view class="h3">{{item.role}}</view>
+      <view class="meta">{{item.city}} · {{item.pkg}}</view>
+      <view class="card-foot">
+        <text>{{item.summary}}</text>
+        <text class="go">看结果 →</text>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{!offers.length}}">
+      还没有提交过。<br />手上那个一直不敢签的 offer，脱敏后发上来试试。
+    </view>
+
+    <view class="btn ghost" wx:if="{{!offers.length}}" bindtap="goSubmit" hover-class="tap">去提一份</view>
+
+    <view class="section-title">关于这个广场</view>
+    <view class="card">
+      <view class="lead" style="margin-bottom: 0;">不卖榜、不卖优先审批、不接招聘方的钱。这个产品的全部价值，就是审批人敢说真话。</view>
+    </view>
+
+    <view class="linkish" wx:if="{{mode === 'local'}}" bindtap="onReset">清空演示数据</view>
+    <view class="footnote">offer 请等等 · v0.2{{mode === 'local' ? ' · 本地演示模式' : ''}}</view>
+  </block>
+</view>

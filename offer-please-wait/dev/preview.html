@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>预览 · offer 请等等</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="phone">
+  <header class="appbar">
+    <div class="brand">offer<em>请等等</em></div>
+    <div class="tagline">签字之前，先让过来人问三个问题</div>
+  </header>
+  <nav class="tabs" id="tabs">
+    <button data-act="nav" data-nav="plaza" class="on">广场</button>
+    <button data-act="nav" data-nav="submit">提一份</button>
+    <button data-act="nav" data-nav="mine">我的</button>
+  </nav>
+  <main id="app"></main>
+  <div class="footnote">演示原型 · 数据只存在这台机器的浏览器里</div>
+  <div id="toast" class="toast"></div>
+</div>
+<div id="modal" class="modal" hidden><div class="sheet" id="sheet"></div></div>
+
+<script src="../app.js"></script>
+<script>
+/* 仅用于截图/演示：?go=detail | voted | mine | submit */
+(function () {
+  var go = new URLSearchParams(location.search).get('go');
+  function click(el) { if (el) el.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
+
+  if (go === 'detail' || go === 'voted') {
+    click(document.querySelector('.card.offer'));
+    if (go === 'voted') {
+      click(document.querySelector('.choice[data-choice="wait"]'));
+      document.getElementById('v-reason').value =
+        '涨 30% 买你每天多干 3 小时，按时薪算其实是降薪。先去要一份近半年的排班记录。';
+      document.getElementById('v-ans-0').value = '汇报人是新来的总监，自己才来 4 个月';
+      document.getElementById('v-ans-2').value = '试用期写的是“上级综合评价”，没有量化指标';
+      click(document.querySelector('[data-act="vote"]'));
+    }
+  } else if (go === 'mine') {
+    click(document.querySelector('#tabs button[data-nav="mine"]'));
+  } else if (go === 'submit') {
+    click(document.querySelector('#tabs button[data-nav="submit"]'));
+  }
+})();
+</script>
+</body>
+</html>

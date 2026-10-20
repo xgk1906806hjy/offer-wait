@@ -1,0 +1,14 @@
+{
+  "triggers": [
+    {
+      "name": "expire",
+      "type": "timer",
+      "config": "0 * * * * * *"
+    },
+    {
+      "name": "reconcile",
+      "type": "timer",
+      "config": "0 5 * * * * *"
+    }
+  ]
+}

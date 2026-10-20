@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>预览 · offer 请等等</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #F6F2EA; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #1A1815;
+    -webkit-font-smoothing: antialiased;
+  }
+  #root { width: 100%; min-height: 100vh; background: #F6F2EA; padding-top: 64px; padding-bottom: 60px; box-sizing: border-box; }
+
+  /* 桌面浏览器里模拟手机宽度，rpx 按这个宽度换算 */
+  @media (min-width: 431px) {
+    body { background: #E6DCCB; padding: 0; }
+    #root {
+      width: 390px;
+      margin: 0 auto;
+      box-shadow: 0 10px 40px rgba(60,45,20,.16), 0 0 0 1px rgba(0,0,0,.05);
+    }
+  }
+
+  #navbar {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 390px; height: 64px;
+    background: #F6F2EA; z-index: 80;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 10px; box-sizing: border-box;
+    font-size: 16px; font-weight: 600; color: #1A1815;
+    border-bottom: 1px solid rgba(0,0,0,.04);
+  }
+
+  #tabbar {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 390px; height: 56px;
+    background: #FBFAF6; border-top: 1px solid #E6DDCE;
+    display: flex; z-index: 80;
+  }
+  .ptab {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2px; font-size: 10px; color: #8A8175; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ptab img { width: 22px; height: 22px; display: block; }
+  .ptab.on { color: #AF3A2A; }
+
+  /* 原生控件在浏览器里的默认样子太跳，压一下 */
+  #root textarea, #root input, #root select {
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  #root textarea { resize: none; }
+
+  /* picker 在小程序里是包裹视图，浏览器里直接渲染成 select，样式补回 picker-box 的样子 */
+  #root select.wx-picker {
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+    font-size: 12.5px;
+    color: #1A1815;
+    background: #FCFAF5;
+    border: 1px solid #E6DDCE;
+    border-radius: 8px;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  #toast {
+    position: fixed;
+    left: 50%;
+    bottom: 40px;
+    transform: translate(-50%, 12px);
+    background: rgba(26,24,21,.93);
+    color: #FCF8F0;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 10px 16px;
+    border-radius: 999px;
+    max-width: 80%;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .2s ease;
+    z-index: 90;
+  }
+  #toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+  .modal {
+    position: fixed; inset: 0;
+    background: rgba(30,24,14,.42);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100; padding: 24px;
+  }
+  .modal-box {
+    width: 100%; max-width: 300px;
+    background: #FBF8F2;
+    border-radius: 16px;
+    padding: 20px 18px 14px;
+  }
+  .modal-title { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .modal-content { font-size: 12.5px; line-height: 1.7; color: #3D382F; margin-bottom: 8px; }
+  .modal-input {
+    width: 100%; box-sizing: border-box;
+    min-height: 80px; font-size: 12.5px; line-height: 1.6;
+    border: 1px solid #E6DDCE; border-radius: 8px;
+    padding: 8px 10px; background: #fff; resize: vertical;
+  }
+  .modal-btns { display: flex; gap: 10px; margin-top: 14px; }
+  .modal-btn {
+    flex: 1; text-align: center; padding: 9px 0;
+    font-size: 13px; color: #6E675C; border-radius: 8px;
+    border: 1px solid #E6DDCE; cursor: pointer;
+  }
+  .modal-btn.primary { background: #1A1815; color: #FCF8F0; border-color: #1A1815; }
+</style>
+</head>
+<body>
+  <div id="navbar"><span id="navtitle"></span></div>
+  <div id="root"></div>
+  <div id="tabbar"></div>
+  <div id="toast"></div>
+  <script src="runtime.js"></script>
+</body>
+</html>
